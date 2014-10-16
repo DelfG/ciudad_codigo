@@ -14,11 +14,11 @@ class Casa {
   
   Casa() {
     //Pon tamaño aleatorio
-    ancho = random(anchoBordeMarco*2*0.3, anchoBordeMarco*2*1.1);
-    alto = random(anchoBordeMarco*2*0.3, anchoBordeMarco*2*1.1);
+    ancho = random(30, 200);
+    alto = ancho;
     edad = int (random(3000)); //La edad incial es aleatoria
     //La edad máxima la hacemos aleatoria entre 5000 fotogramas y 60000 fotogramas
-    edadMaxima = int (random(5000,60000));
+    edadMaxima = int (random(3000,10000));
   }
   
   //El inicio lo separamos para poder poner el angulo y posicion desde fuera antes de iniciar la persona
@@ -42,14 +42,14 @@ class Casa {
     float a = body.getAngle();
     
     //Dibujamos el objeto
-    rectMode(PConstants.CENTER);
-    pushMatrix(); //Se usa una matriz para controlar mejor cómo dibujamos el rectángulo.
-    translate(pos.x, pos.y);
-    rotate(-a);
-    noStroke();
-    fill(0,0,180);
-    rect(0, 0, ancho, alto);
-    popMatrix();
+    //rectMode(PConstants.CENTER);
+    //pushMatrix(); //Se usa una matriz para controlar mejor cómo dibujamos el rectángulo.
+    //translate(pos.x, pos.y);
+    //rotate(-a);
+    //noStroke();
+    //fill(0,0,60);
+    //ellipse(0, 0, ancho, alto);
+    //popMatrix();
   }
   
   // Esta función añade el body en forma de rectángulo al mundo 2d
@@ -61,15 +61,13 @@ class Casa {
     bd.angle = angle_;
     body = box2d.createBody(bd);
 
-    // Se genera el rectángulo
-    PolygonShape sd = new PolygonShape();
-    float box2dW = box2d.scalarPixelsToWorld(w_/2);
-    float box2dH = box2d.scalarPixelsToWorld(h_/2);
-    sd.setAsBox(box2dW, box2dH);
+     // Make the body's shape a circle
+    CircleShape cs = new CircleShape();
+    cs.m_radius = box2d.scalarPixelsToWorld(w_*0.5);
 
     // Se le asigna a la forma
     FixtureDef fd = new FixtureDef();
-    fd.shape = sd;
+    fd.shape = cs;
     
     // Le damos parámetros físicos
     fd.density = 1;
