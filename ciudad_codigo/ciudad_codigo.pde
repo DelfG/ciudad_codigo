@@ -12,13 +12,13 @@ import org.jbox2d.dynamics.*;
 
 // CASAS
 // Primero se generará una casa por barrio. Después se añadirán casas adosadas con el mismo ángulo.
-int numeroMaximoCasas=120; //Numero de casas que se crearán
+int numeroMaximoCasas=30; //Numero de casas que se crearán
 int numeroMaximoDeBarrios = 7; //Número de casas que se creará al inicio de forma aleatoria e independiente
 float distaciaMinimaSeparacionCasasBarrio = 44.0; //Distancia mínima de separación para el resto de las casas
-float distaciaMaximaSeparacionCasasBarrio = 50.0; //Distancia maxima de separación para el resto de las casas
+float distaciaMaximaSeparacionCasasBarrio = 100.0; //Distancia maxima de separación para el resto de las casas
 
 // PERSONAS
-int numeroMaximoPersonas=160; //Numero de personas que se crearán. Las que se mueran, volverán a nacer
+int numeroMaximoPersonas=600; //Numero de personas que se crearán. Las que se mueran, volverán a nacer
 
 // Bordes
 int anchoBordeMarco=30;  //Separación entre el borde de la aplicación y la generación de contenidos. Las casas pueden sobresalir.
@@ -53,7 +53,7 @@ ArrayList<Borde> bordes;
 void setup() {
   //Tamaño de la ventana y fotogramas por segundo (máximos, seguramente no llegue a tal velocidad, pero no es importante)
   size(768, 768);
-  frameRate(300);
+  frameRate(30);
   colorMode(HSB, 360, 180, 180);
 
   //Iniciamos la instancia del motor de física, y lo configuramos con gravedad 0
@@ -85,8 +85,7 @@ void setup() {
   //Ponermos la nubosidad como variable de contraste a la inversa
   contraste = 100-cloudsObj.getInt("all");
 
-  //Ponemos el fondo blanco, solo una vez
-  background(0, 0, 180);
+  
 }
 
 
@@ -98,15 +97,19 @@ void setup() {
 
 //Esta función se ejecuta cada fotograma
 void draw() {
+  //Ponemos el fondo blanco, solo una vez
+  background(0, 0, 180);
   
   //Actualiza el mundo físico. Cs un comando de la libreria que estamos obligados a ejecutar cada fotograma
   box2d.step();
 
   // PERSONAS
   //Cada 10 frames, aproximadamente, creamos una nueva persona
-  if (random(10)<1 && personas.size()<numeroMaximoPersonas) {
-    // Creamos una nueva persona añadiéndola a la lista
-    personas.add(new Persona());
+  for (int i = 0; i < 3; i++) {
+    if (personas.size()<numeroMaximoPersonas) {
+      // Creamos una nueva persona añadiéndola a la lista
+      personas.add(new Persona());
+    }
   }
 
   // Recorremos todas las personas creadas y las dibujamos
@@ -189,4 +192,3 @@ void asignaPosicion(int n) {
     casas.get(n).angulo = angulo;
   }
 }
-
